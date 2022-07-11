@@ -1,0 +1,47 @@
+.el-main {
+  position: relative;
+  padding: initial;
+}
+
+.el-footer {
+  position: sticky;
+  bottom: 0;
+}
+
+.el-divider {
+  &.el-divider--horizontal {
+    margin: 10px 0;
+    padding: 0 5px;
+    width: 80%;
+  }
+}
+
+.el-avatar {
+  background: #3c3f41;
+}
+
+.el-card {
+  border-radius: 12px;
+
+  .el-card__body {
+    padding: 12px;
+  }
+}
+
+.el-collapse {
+  width: 100%;
+  border-top: unset;
+  border-bottom: unset;
+
+  .el-collapse-item__header {
+    border-bottom: unset;
+  }
+
+  .el-collapse-item__wrap {
+    border-bottom: unset;
+
+    .el-collapse-item__content {
+      padding-bottom: unset;
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "name": "resume-vue2",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "p": "yarn run prettier",
+    "serve": "vue-cli-service serve",
+    "build": "sh build.sh",
+    "build-app": "vue-cli-service build",
+    "lint": "vue-cli-service lint --no-fix",
+    "lint:fix": "vue-cli-service lint --fix",
+    "lint:dev": "git diff --name-only | grep -P '\\.ts$' | xargs vue-cli-service lint",
+    "prettier": "yarn prettier:ts && yarn prettier:vue",
+    "prettier:dev": "yarn prettier:dev-ts && yarn prettier:dev-vue",
+    "prettier:ts": "prettier --write \"src/**/**.ts\"",
+    "prettier:vue": "prettier --write \"src/**/**.vue\" --parser vue",
+    "prettier:dev-ts": "git diff --name-only | grep -P '\\.ts$' | xargs prettier --write ",
+    "prettier:dev-vue": "git diff --name-only | grep -P '\\.vue$' | xargs prettier --write --parser vue",
+    "prettier:api": "prettier --write \"src/api/impl/**/*.ts\"",
+    "theme": "yarn et -i",
+    "theme:build": "yarn et --minimize"
+  },
+  "dependencies": {
+    "core-js": "^3.6.5",
+    "element-ui": "^2.15.6",
+    "event-hooks-webpack-plugin": "2.1.5",
+    "linq": "3.2.1",
+    "loglevel": "^1.7.0",
+    "loglevel-plugin-prefix": "^0.8.4",
+    "uuid-generator-ts": "^1.1.0",
+    "vue": "^2.6.11",
+    "vue-class-component": "^7.2.3",
+    "vue-property-decorator": "^9.1.2",
+    "vue-router": "^3.2.0",
+    "vuetify": "^2.4.0",
+    "vuex": "^3.4.0",
+    "vuex-class": "^0.3.2",
+    "vuex-persistedstate": "^4.0.0-beta.3"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-typescript": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/eslint-config-prettier": "^6.0.0",
+    "@vue/eslint-config-typescript": "^7.0.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-vue": "^6.2.2",
+    "lint-staged": "^9.5.0",
+    "sass": "~1.32.0",
+    "node-sass": "^4.12.0",
+    "prettier": "^2.2.1",
+    "sass-loader": "^8.0.2",
+    "tslint-config-prettier": "1.18.0",
+    "typescript": "~4.1.5",
+    "vue-cli-plugin-vuetify": "~2.4.5",
+    "vue-template-compiler": "^2.6.11",
+    "vuetify-loader": "^1.7.0"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,jsx,vue,ts,tsx}": [
+      "vue-cli-service lint",
+      "git add"
+    ]
+  }
+}

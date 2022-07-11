@@ -1,0 +1,29 @@
+<v-app>
+    <el-aside width="fit-content">
+        <v-navigation-drawer class="pirate-aside"
+                             permanent
+                             :width="56">
+            <div class="pirate-nav">
+                <div class="pirate-nav-top">
+                    <el-tooltip class="pirate-nav-item"
+                                effect="dark"
+                                content="首頁"
+                                placement="right">
+                        <router-link :to="`/home`">
+                            <el-avatar src="/images/logo.jpg"></el-avatar>
+                        </router-link>
+                    </el-tooltip>
+                </div>
+                <el-divider></el-divider>
+            </div>
+        </v-navigation-drawer>
+    </el-aside>
+    <el-main style="height: calc(100vh - 37px);">
+        <router-view style="min-height: calc(100% - 78px); "></router-view>
+        <div class="copyrights">
+            <div class="text">
+                {{ copyRight }}
+            </div>
+        </div>
+    </el-main>
+</v-app>
