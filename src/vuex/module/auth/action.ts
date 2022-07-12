@@ -1,5 +1,5 @@
 import { MyLogger } from "@/base/utils/MyLogger";
-import { AUTH_LOGIN, UI_HISTORY_MESSAGE } from "@/store/mutationConstant";
+import { AUTH_LOGIN, UI_HISTORY_MESSAGE } from "@/vuex/mutationConstant";
 
 export default {
   async login(context: any, data: any): Promise<void> {

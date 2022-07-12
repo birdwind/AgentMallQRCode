@@ -1,8 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
-import Auth from "@/store/module/auth";
-import ElementUI from "@/store/module/elementUI";
+import Auth from "@/vuex/module/auth";
+import ElementUI from "@/vuex/module/elementUI";
 
 Vue.use(Vuex);
 

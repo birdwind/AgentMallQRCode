@@ -2,7 +2,7 @@ import Vue from "vue";
 import { MessageType } from "element-ui/types/message";
 import { NotificationPosition } from "element-ui/types/notification";
 import { Action } from "vuex-class";
-import { AddHistoryMessage, Reload, ShowLoading } from "@/store/types";
+import { AddHistoryMessage, Reload, ShowLoading } from "@/vuex/types";
 import { MyLogger } from "@/base/utils/MyLogger";
 
 export class BaseVue extends Vue {

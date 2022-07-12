@@ -1,7 +1,7 @@
-export const toDoRoutes = [
-  // {
-  //   path: "/home",
-  //   name: "ToDoHome",
-  //   component: () => import("@/views/ToDo/ToDo.vue"),
-  // },
+export const googleRoutes = [
+  {
+    path: "/google",
+    name: "Google",
+    component: () => import("@/views/GoogleSheet/GoogleSheet.vue"),
+  },
 ];

@@ -2,7 +2,7 @@ import Vue from "vue";
 import { configElementUi, configErrorHandler, configRightMouseMenu, vuetify } from "@/base/config";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
+import store from "./vuex";
 
 Vue.config.productionTip = false;
 

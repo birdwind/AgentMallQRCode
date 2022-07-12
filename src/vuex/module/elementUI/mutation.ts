@@ -1,5 +1,5 @@
-import { UI_HISTORY_MESSAGE, UI_LOADING, UI_RELOAD } from "@/store/mutationConstant";
-import { ElementUIVuex } from "@/store/module/elementUI/state";
+import { UI_HISTORY_MESSAGE, UI_LOADING, UI_RELOAD } from "@/vuex/mutationConstant";
+import { ElementUIVuex } from "@/vuex/module/elementUI/state";
 import { HistoryMessage } from "@/base/data/historyMessage";
 
 export default {

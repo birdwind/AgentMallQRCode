@@ -24,6 +24,7 @@
     "core-js": "^3.6.5",
     "element-ui": "^2.15.6",
     "event-hooks-webpack-plugin": "2.1.5",
+    "google-spreadsheet": "^3.3.0",
     "linq": "3.2.1",
     "loglevel": "^1.7.0",
     "loglevel-plugin-prefix": "^0.8.4",
