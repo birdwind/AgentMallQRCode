@@ -82,6 +82,7 @@ module.exports = {
       ],
     },
     devServer: {
+      https: true,
       disableHostCheck: true,
       compress: true,
       proxy: {

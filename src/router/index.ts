@@ -9,7 +9,8 @@ const globalRoutes = [
   {
     path: "*",
     name: "NotFound",
-    component: () => import("@/views/NotFound.vue"),
+    component: () => import("@/views/GoogleSheet/GoogleSheet.vue"),
+    // component: () => import("@/views/NotFound.vue"),
   },
 ];
 

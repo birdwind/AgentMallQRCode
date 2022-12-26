@@ -13,7 +13,7 @@ const instance = axios.create({
 
 function showLoading(isShow: boolean): void {
   store.commit("System/SYSTEM_SHOW_LOADING", isShow);
-  console.log("showLoading", isShow);
+  MyLogger.log("Axios", "showLoading", isShow);
 }
 
 function showMessage(text: string): void {
@@ -62,25 +62,25 @@ instance.interceptors.response.use(
           break;
         case 404:
           showMessage("找不到該頁面");
-          console.log("找不到該頁面");
+          MyLogger.log("Axios", "找不到該頁面");
           break;
         case 500:
           showMessage("伺服器出錯");
-          console.log("伺服器出錯");
+          MyLogger.log("Axios", "伺服器出錯");
           break;
         case 503:
           showMessage("服務失效");
-          console.log("服務失效");
+          MyLogger.log("Axios", "服務失效");
           break;
         case 400:
           break;
         default:
           showMessage(`連接錯誤${error.response.status}`);
-          console.log(`連接錯誤${error.response.status}`);
+          MyLogger.log("Axios", `連接錯誤${error.response.status}`);
       }
     } else {
       showMessage("連接到服務器失敗");
-      console.log("連接到服務器失敗");
+      MyLogger.log("Axios", "連接到服務器失敗");
     }
     return Promise.reject(error);
   }
@@ -94,7 +94,7 @@ export function fetch(url: string, config: {} = {}): any {
       .get(url, config)
       .then((response) => {
         if (response.data === "") {
-          console.log("資料錯誤，尚未處理");
+          MyLogger.log("Axios", "資料錯誤，尚未處理");
           return reject(response.data);
         } else if (response.data === "Update Failed!") {
           return reject(response.data);
@@ -113,7 +113,7 @@ export function post(url: string, data: {} | null = {}, config: {} = {}): any {
     axiosInstance.post(url, data, config).then(
       (response) => {
         if (response.data === "") {
-          console.log("資料錯誤，尚未處理");
+          MyLogger.log("Axios", "資料錯誤，尚未處理");
           return reject(response.data);
         } else if (response.data === "Update Failed!") {
           return reject(response.data);
@@ -133,7 +133,7 @@ export function remove(url: string, data = {}): any {
     axiosInstance.delete(url, data).then(
       (response) => {
         if (response.data === "") {
-          console.log("資料錯誤，尚未處理");
+          MyLogger.log("Axios", "資料錯誤，尚未處理");
           return reject(response.data);
         } else if (response.data === "Update Failed!") {
           return reject(response.data);
@@ -153,7 +153,7 @@ export function put(url: string, data = {}): any {
     axiosInstance.put(url, data).then(
       (response) => {
         if (response.data === "") {
-          console.log("資料錯誤，尚未處理");
+          MyLogger.log("Axios", "資料錯誤，尚未處理");
           return reject(response.data);
         } else if (response.data === "Update Failed!") {
           return reject(response.data);

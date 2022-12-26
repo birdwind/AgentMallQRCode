@@ -1,3 +1,9 @@
 .google-sheet {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
 
+  .scanner {
+
+  }
 }
