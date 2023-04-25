@@ -1,0 +1,14 @@
+.svg-icon {
+  &.svg-pointer {
+    cursor: pointer;
+
+    &:hover {
+      color: #3A71A8;
+    }
+  }
+
+  &.info-circle, &.icon {
+    width: 20px !important;
+    height: 20px !important;
+  }
+}

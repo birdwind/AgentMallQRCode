@@ -1,0 +1,41 @@
+@mixin custom-one-size($n) {
+  @media screen and (max-width: $n) {
+      @content
+  }
+};
+
+@mixin custom-between-size($m, $n) {
+  @media screen and (min-height: $m) and (max-height: $n) {
+      @content
+  }
+};
+
+@mixin desktop-top {
+  @media screen and (max-width: 1024px) {
+      @content
+  }
+};
+
+@mixin pad {
+  @media screen and (max-width: 768px) {
+      @content
+  }
+};
+
+@mixin iphone6 {
+  @media screen and (max-width: 568px) {
+      @content
+  }
+};
+
+@mixin mobile {
+  @media only screen and (max-width: 480px) {
+      @content
+  }
+};
+
+@mixin iphone {
+  @media screen and (max-width: 320px) {
+      @content
+  }
+}

@@ -1,0 +1,332 @@
+@import './variables.scss';
+@import './mixin.scss';
+@import './transition.scss';
+@import './element-ui.scss';
+@import './sidebar.scss';
+@import './btn.scss';
+@import './screen.scss';
+@import './icon.scss';
+@import './im.scss';
+
+body {
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+}
+
+label {
+  font-weight: 700;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#app {
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.no-padding {
+  padding: 0px !important;
+}
+
+.padding-content {
+  padding: 4px 0;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+div:focus {
+  outline: none;
+}
+
+.fr {
+  float: right;
+}
+
+.fl {
+  float: left;
+}
+
+.pr-5 {
+  padding-right: 5px;
+}
+
+.pl-5 {
+  padding-left: 5px;
+}
+
+.block {
+  display: block;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.inlineBlock {
+  display: block;
+}
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: ' ';
+    clear: both;
+    height: 0;
+  }
+}
+
+code {
+  background: #eef1f6;
+  padding: 15px 16px;
+  margin-bottom: 20px;
+  display: block;
+  line-height: 36px;
+  font-size: 15px;
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+  a {
+    color: #337ab7;
+    cursor: pointer;
+    &:hover {
+      color: rgb(32, 160, 255);
+    }
+  }
+}
+
+.warn-content {
+  background: rgba(66, 185, 131, 0.1);
+  border-radius: 2px;
+  padding: 16px;
+  padding: 1rem;
+  line-height: 1.6rem;
+  word-spacing: 0.05rem;
+  a {
+    color: #42b983;
+    font-weight: 600;
+  }
+}
+
+//main-container全局样式
+.app-container {
+  padding: 20px;
+}
+
+.components-container {
+  margin: 30px 50px;
+  position: relative;
+}
+
+.pagination-container {
+  margin-top: 30px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.sub-navbar {
+  height: 50px;
+  line-height: 50px;
+  position: relative;
+  width: 100%;
+  text-align: right;
+  padding-right: 20px;
+  transition: 600ms ease position;
+  background: linear-gradient(
+      90deg,
+      rgba(32, 182, 249, 1) 0%,
+      rgba(32, 182, 249, 1) 0%,
+      rgba(33, 120, 241, 1) 100%,
+      rgba(33, 120, 241, 1) 100%
+  );
+  .subtitle {
+    font-size: 20px;
+    color: #fff;
+  }
+  &.draft {
+    background: #d0d0d0;
+  }
+  &.deleted {
+    background: #d0d0d0;
+  }
+}
+
+.link-type,
+.link-type:focus {
+  color: #337ab7;
+  cursor: pointer;
+  &:hover {
+    color: rgb(32, 160, 255);
+  }
+}
+
+.filter-container {
+  padding-bottom: 10px;
+  .filter-item {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 10px;
+  }
+}
+
+//refine vue-multiselect plugin
+.multiselect {
+  line-height: 16px;
+}
+
+.multiselect--active {
+  z-index: 1000 !important;
+}
+
+.divfix {
+  margin-top: -20px;
+  margin-left: -20px;
+  padding-top: 20px;
+  padding-left: 20px;
+  position: fixed;
+  width: 100%;
+  background-color: #fff;
+  z-index: 995;
+}
+
+.divfixhead {
+  position: fixed;
+  width: 100%;
+  background-color: #fff;
+  z-index: 996;
+}
+
+.divapp-main {
+  position: relative;
+  top: 50px;
+  background-color: #fff;
+}
+.divfixtab {
+  position: fixed;
+  top: 50px;
+  width: 100%;
+  height: 1%;
+  background-color: #fff;
+}
+
+.div_table {
+  position: absolute;
+  left: auto;
+}
+
+.table_d {
+  border: 1px solid #ebeef5;
+  text-align: left;
+  background-color: #f5f7fa;
+  height: 46px;
+  font-size: 14px;
+}
+
+// dialog 畫面內的 inpput select textarea 統一寬度
+.el-dialog {
+  .el-input {
+    input {
+      width: $dialogInputWidth;
+      @include mobile {
+        width: 100%;
+      }
+    }
+    &.urlInput {
+      input {
+        width: 316px;
+        @include iphone6 {
+          width: $dialogInputWidth;
+        }
+        @include mobile {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .el-textarea {
+    textarea {
+      width: $dialogInputWidth;
+      @include mobile {
+        width: 100%;
+      }
+    }
+  }
+  // dialog 下 table 內的 input 就不限制寬度
+  tr {
+    .el-textarea {
+      textarea {
+        width: 100%;
+      }
+    }
+    .el-input {
+      input {
+        width: 100%;
+      }
+    }
+  }
+}
+
+// 以下 fix 下拉多選會抖動問題
+.el-select__input {
+  vertical-align: base;
+}
+.select-box span:focus-within {
+  border: none;
+  outline: none;
+}
+.el-tag--small {
+  height: 25px;
+}
+
+.dialog-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.col-action {
+  display: flex;
+  flex-direction: column;
+  // width: fit-content;
+  width: min-content;
+  button {
+    // width: fit-content;
+    width: min-content;
+  }
+}
+
+.upload-preview{
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
