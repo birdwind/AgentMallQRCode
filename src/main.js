@@ -3,7 +3,6 @@ import Vue from 'vue'
 import Cookies from 'js-cookie'
 
 import 'normalize.css/normalize.css' // a modern alternative to CSS resets
-import './utils/videojs' // videojs
 
 import Element from 'element-ui'
 import './styles/element-variables.scss'

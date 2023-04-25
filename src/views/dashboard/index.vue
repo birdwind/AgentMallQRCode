@@ -1,24 +1,27 @@
 <template>
-  <div class="dashboard-container">
-    <input v-model="barcode" style="background: #FFFFFF;padding: 6px;width: 100%;" placeholder="請輸入條碼">
+  <div class="dashboard-container app-container ">
 
-    <div>
-      <span style="color: #FFFFFF">查詢條碼: {{ lastBarcode }}</span>
-      <br>
-      <span style="color: #FFFFFF">查詢結果: {{ result }}</span>
+    <div class="filter-container" style="display: flex;">
+      <bs-input v-model="barcode" style="width: 100%;" placeholder="請輸入條碼" />
+      <bs-button style="margin-left: 12px;" title="查詢" />
     </div>
-    <div
-      style="width: 300px; height: 300px; border: #FFFFFF solid 1px; border-radius: 8px; overflow-y: scroll; padding: 3px 6px;"
+
+    <el-table
+      v-loading="isLoading"
+      :data="resultList.slice().reverse()"
+      :element-loading-text="$t('table.loading')"
+      border
+      fit
+      highlight-current-row
+      style="width: 100%"
     >
-      <div
-        v-for="(item, index) in resultList.slice().reverse()"
-        :key="index"
-        style="color: #FFFFFF; display: grid; grid-template-columns: 60% 40%;"
-      >
-        <span style="text-overflow: ellipsis;">{{ item.barcode }} </span>
-        <span style="color: red;">{{ item.orderId }}</span>
-      </div>
-    </div>
+      <el-table-column prop="System" label="條碼" min-width="100">
+        <template slot-scope="scope">{{ $t(scope.row.barcode) }}</template>
+      </el-table-column>
+      <el-table-column prop="Version" label="編號" min-width="100" align="center">
+        <template slot-scope="scope">{{ scope.row.orderId | isNull }}</template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
@@ -37,8 +40,8 @@ export default {
       barcode: '',
       lastBarcode: '',
       timer: null,
-      result: '',
-      resultList: []
+      resultList: [],
+      isLoading: false
     }
   },
   computed: {
@@ -75,8 +78,7 @@ export default {
     async searchBarCode(barcodeString) {
       const docId = '1K4BFsJQUcQSRWwL2YoaAtV3_fw-Vc8rJRaDA8SyTuAw'
       const sheetId = '277981836'
-
-      this.result = '搜索中'
+      this.isLoading = true
       let orderId = ''
       if (!this.sheetData) {
         await this.loadGoogleSheet(docId, sheetId)
@@ -92,15 +94,10 @@ export default {
         }
       }
 
-      if (orderId === '') {
-        this.result = '查無單號'
-      } else {
-        this.result = orderId
-      }
-
       this.lastBarcode = barcodeString
       this.resultList.push({ barcode: barcodeString, orderId: orderId })
       this.barcode = ''
+      this.isLoading = false
     }
   }
 }

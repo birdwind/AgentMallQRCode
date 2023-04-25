@@ -77,3 +77,7 @@ export function parseToMonth(dateString) {
   }
   return target
 }
+
+export function isNull(string) {
+  return string || 'N/A'
+}
