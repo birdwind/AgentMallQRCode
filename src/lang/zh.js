@@ -52,7 +52,9 @@ export default {
   },
   table: {
     loading: '請稍等',
-    confirm: '確認'
+    search: '搜尋',
+    confirm: '確認',
+    cancel: '取消'
   },
   symptom: {
     dementia: '失智症',

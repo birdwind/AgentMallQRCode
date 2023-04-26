@@ -131,6 +131,19 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   {
+    path: '/tools',
+    component: Layout,
+    redirect: 'noRedirect',
+    children: [
+      {
+        path: 'tool',
+        component: () => import('@/views/tools'),
+        name: 'Tools',
+        meta: { title: '工具', icon: 'example' }
+      }
+    ]
+  },
+  {
     path: '/system',
     component: Layout,
     redirect: 'noRedirect',

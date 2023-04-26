@@ -1,0 +1,50 @@
+.tools {
+  .stock-list {
+    &__item {
+      background: #F6F6F6;
+      padding: 6px;
+      border-radius: 6px;
+
+      &__info {
+        display: flex;
+        flex: 1;
+
+        .delete-btn{
+          display: flex;
+          align-items: center;
+          border: 1px solid #DCDFE6;
+          border-radius: 6px;
+          width: 40px;
+          height: 40px;
+          padding: 3px;
+          cursor: pointer;
+        }
+
+        div + div{
+          margin-left: 6px;
+        }
+
+        &::v-deep{
+          .el-input{
+            min-width: 230px;
+            input{
+              width: 100%;
+            }
+          }
+        }
+      }
+
+      &__column {
+        margin-top: 6px;
+        .el-tag + .el-tag{
+          margin-left: 6px;
+        }
+      }
+    }
+
+    &__item + .stock-list__item{
+      margin: 6px 0;
+    }
+  }
+
+}

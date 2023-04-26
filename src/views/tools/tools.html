@@ -1,0 +1,172 @@
+<section class="tools">
+  <div class="app-container calendar-list-container">
+    <div class="filter-container">
+      <bs-input v-model="paging.query.name" placeholder="姓名"/>
+      <bs-input v-model="paging.query.account" placeholder="匯款後五碼"/>
+      <bs-search-button @click=""/>
+      <bs-button class="green-btn" title="設定" @click="handleSettingDialog"/>
+      <bs-button class="tiffany-btn" title="預覽訂購資訊" @click="handlePreview('productInfo', settingDialog.data.productInfo)"
+                 v-if="settingDialog.defaultData.data.productInfo.data.length > 0"
+      />
+      <bs-button class="tiffany-btn" title="預覽對帳資訊" @click="handlePreview('paymentInfo', settingDialog.data.paymentInfo)"
+                 v-if="settingDialog.defaultData.data.paymentInfo.data.length > 0"
+      />
+      <bs-button class="red-btn" title="商品分配" @click=""
+                 v-if="settingDialog.defaultData.data.productInfo.data.length > 0 && settingDialog.defaultData.data.paymentInfo.data.length > 0"
+      />
+    </div>
+    <div class="filter-note">
+      商品數量
+    </div>
+    <el-table ref="table"
+              :data="tableData"
+              v-loading="paging.isLoading"
+              :element-loading-text="$t('table.loading')"
+              :cell-style="getCssStyle"
+              @sort-change="onSortChange" border fit
+              highlight-current-row
+    >
+      <el-table-column prop="order" label="順序" width="60" align="center">
+        <template slot-scope="scope">{{ scope.row[tableHeader.value.order] }}</template>
+      </el-table-column>
+      <el-table-column prop="name" label="姓名" width="120">
+        <template slot-scope="scope">{{ scope.row[tableHeader.value.name] | maskName }}</template>
+      </el-table-column>
+      <el-table-column prop="product" label="商品" min-width="200">
+        <template slot-scope="scope">{{ scope.row[tableHeader.value.product] }}</template>
+      </el-table-column>
+      <el-table-column prop="payment" label="匯款後五碼" width="120">
+        <template slot-scope="scope">{{ scope.row[tableHeader.value.productPayment] }}</template>
+      </el-table-column>
+      <el-table-column prop="date" label="匯款日期時間" width="200">
+        <template slot-scope="scope">{{ scope.row[tableHeader.value.date] }}</template>
+      </el-table-column>
+      <el-table-column v-for="item of wishColumn" :key="item" :prop="item" :label="item"/>
+    </el-table>
+  </div>
+
+  <!-- 設定彈跳視窗 -->
+  <el-dialog title="設定"
+             :close-on-click-modal="false"
+             :show-close="true"
+             :visible.sync="settingDialog.isVisible"
+             width="60%"
+             v-loading="settingDialog.isLoading"
+             v-if="settingDialog.isVisible"
+  >
+    <div class="dialog-main">
+      <el-form :rules="settingDialog.rules" ref="dataForm" :model="settingDialog.data" label-position="left"
+               label-width="200px"
+      >
+        <!-- 訂購資訊 -->
+        <el-form-item label="訂購資訊" prop="ProductInfo">
+          <bs-button title="導入訂購資訊" @click="handleUploadProductInfo"/>
+          <bs-button title="預覽" @click="handlePreview('productInfo', settingDialog.data.productInfo)"
+                     v-if="settingDialog.data.productInfo.data.length > 0"
+          />
+          <input ref="product-info-upload-input" style="display: none;" type="file" accept=".xlsx, .xls, .csv"
+                 @change="handleUpload('productInfo', $event)"
+          >
+        </el-form-item>
+        <!-- 對帳資訊 -->
+        <el-form-item label="對帳資訊" prop="PaymentInfo">
+          <bs-button title="導入對帳資訊" @click="handleUploadPaymentInfo"/>
+          <bs-button title="預覽" @click="handlePreview('paymentInfo', settingDialog.data.paymentInfo)"
+                     v-if="settingDialog.data.paymentInfo.data.length > 0"
+          />
+          <input ref="payment-info-upload-input" style="display: none;" type="file" accept=".xlsx, .xls, .csv"
+                 @change="handleUpload('paymentInfo', $event)"
+          >
+        </el-form-item>
+        <!-- 表格設定 -->
+        <el-form-item label="對應設定" prop="PaymentInfo">
+          <bs-select v-model="tableHeader.key.name" :options="settingDialog.productInfoColumn"
+                     placeholder="請選定姓名對應欄位"
+                     filterable
+          />
+<!--          <bs-select v-model="tableHeader.key.product" :options="settingDialog.productInfoColumn"-->
+<!--                     placeholder="請選定商品對應欄位"-->
+<!--                     filterable-->
+<!--          />-->
+          <div style="display: flex;">
+            <bs-select v-model="tableHeader.key.productPayment" :options="settingDialog.productInfoColumn"
+                       placeholder="請選定匯款後五碼對應欄位"
+                       filterable
+            />
+            <bs-select v-model="tableHeader.key.paymentPayment" :options="settingDialog.paymentInfoColumn"
+                       placeholder="請選定對帳後五碼對應欄位"
+                       filterable
+            />
+          </div>
+          <div style="display: flex;">
+            <bs-select v-model="tableHeader.key.productInfoDate" :options="settingDialog.productInfoColumn"
+                       placeholder="請選定訂購匯款日期對應欄位"
+                       filterable
+            />
+            <bs-select v-model="tableHeader.key.paymentInfoDate" :options="settingDialog.paymentInfoColumn"
+                       placeholder="請選定對帳匯款日期對應欄位"
+                       filterable
+            />
+          </div>
+        </el-form-item>
+        <!-- 商品設定 -->
+        <el-form-item label="商品設定" prop="ProductSetting">
+          <bs-select v-model="settingDialog.data.productInfoColumn" :options="settingDialog.productInfoColumn"
+                     placeholder="請選定欄位"
+                     :multiple="true"
+                     filterable
+          />
+          <a style="margin-left: 6px;" @click="handleAddProductStock">
+            <svg-icon icon-class="add"/>
+          </a>
+        </el-form-item>
+        <div class="stock-list">
+          <div class="stock-list__item" v-for="(item, index) in settingDialog.data.productStock" :key="index">
+            <div class="stock-list__item__info">
+              <bs-input v-model="item.name" placeholder="規格名稱" style="width: 100%;"/>
+              <bs-input v-model="item.stock" placeholder="規格庫存" style="width: 100px;"/>
+              <div class="delete-btn" @click="handleDeleteProductStock(index)">
+                <svg-icon icon-class="delete" style="width: auto; height: 100%;"/>
+              </div>
+            </div>
+            <div class="stock-list__item__column">
+              <el-tag type="success"
+                      v-for="(column, columnIndex) in item.productInfoColumn"
+                      :key="columnIndex">
+                {{ column}}
+              </el-tag>
+            </div>
+          </div>
+        </div>
+      </el-form>
+    </div>
+    <div slot="footer" class="dialog-footer">
+      <bs-cancel-button @click="settingDialog.isVisible = false"/>
+      <bs-submit-button @click="handleConfirmSettingDialog"/>
+    </div>
+  </el-dialog>
+
+  <!-- 預覽彈跳視窗 -->
+  <el-dialog :title="previewDialog.title"
+             :close-on-click-modal="false"
+             :show-close="true"
+             :visible.sync="previewDialog.isVisible"
+             v-loading="previewDialog.isLoading"
+             v-if="previewDialog.isVisible"
+             width="80%"
+  >
+    <div class="dialog-main">
+      <el-table :data="previewDialog.data.data"
+                v-loading="previewDialog.isLoading"
+                :element-loading-text="$t('table.loading')"
+                highlight-current-row
+      >
+        <el-table-column v-for="item of previewDialog.data.header" :key="item" :prop="item" :label="item"/>
+      </el-table>
+    </div>
+    <div slot="footer" class="dialog-footer">
+      <bs-submit-button @click="previewDialog.isVisible=false"/>
+    </div>
+  </el-dialog>
+</section>
+

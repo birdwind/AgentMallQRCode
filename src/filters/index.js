@@ -81,3 +81,12 @@ export function parseToMonth(dateString) {
 export function isNull(string) {
   return string || 'N/A'
 }
+
+export function maskName(string) {
+  if (!string) return
+  if (string.length === 2) {
+    return `${string.slice(0, 1)}*`
+  } else {
+    return `${string.slice(0, 1)}${string.slice(string.length - 1).padStart(string.length - 1, '*')}`
+  }
+}
