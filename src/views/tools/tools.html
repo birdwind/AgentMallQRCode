@@ -11,7 +11,7 @@
       <bs-button class="tiffany-btn" title="預覽對帳資訊" @click="handlePreview('paymentInfo', settingDialog.data.paymentInfo)"
                  v-if="settingDialog.defaultData.data.paymentInfo.data.length > 0"
       />
-      <bs-button class="red-btn" title="商品分配" @click=""
+      <bs-button class="red-btn" title="商品分配" @click="handleAllocation"
                  v-if="settingDialog.defaultData.data.productInfo.data.length > 0 && settingDialog.defaultData.data.paymentInfo.data.length > 0"
       />
     </div>

@@ -2,6 +2,7 @@ import MdInput from '@/components/MDinput/index.vue'
 import XLSX from 'xlsx'
 import { deepClone } from '@/utils'
 import { getJsDateFromExcel } from 'excel-date-to-js'
+import { formatDate, formatDateAsStart } from '@/utils/format'
 
 export default {
   name: 'tools',
@@ -177,6 +178,18 @@ export default {
         this.settingDialog.isLoading = false
       })
     },
+    handleAllocation: function() {
+      this.reconciliation(this.settingDialog.data.paymentInfo.data, this.settingDialog.data.productInfo.data, {
+        product: '',
+        payment: ''
+      }, {
+        product: '',
+        payment: ''
+      }, {
+        product: '',
+        payment: ''
+      })
+    },
     excelReader(excelFileData) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader()
@@ -213,6 +226,30 @@ export default {
     },
     getHeader(row, columnIndex) {
       return row[columnIndex].name
+    },
+    reconciliation(productData, paymentData, accountColumnName, dateColumnName, moneyColumnName) {
+      // 對帳
+      for (const productRowData in productData) {
+        paymentData.find(item => {
+          const paymentAccount = item[accountColumnName.payment].slice(11, 16)
+          const productAccount = productRowData[accountColumnName.product]
+          if (paymentAccount === productAccount) {
+            const paymentDate = formatDateAsStart(new Date(item[dateColumnName.payment]))
+            const paymentMoney = item[moneyColumnName.payment]
+
+            const productDate = formatDateAsStart(new Date(productRowData[dateColumnName.product]))
+            const productMoney = item[moneyColumnName.product]
+
+            if (paymentDate === productDate) {
+              if (paymentMoney === productMoney) {
+                productRowData[dateColumnName.product] = formatDate(new Date(productRowData[dateColumnName.product]))
+                return true
+              }
+            }
+          }
+          return false
+        })
+      }
     }
   }
 }
