@@ -1,5 +1,18 @@
 .tools {
   .stock-list {
+
+    .close-btn{
+      display: flex;
+      align-items: center;
+      //border: 1px solid #DCDFE6;
+      //border-radius: 6px;
+      width: 30px;
+      height: 30px;
+      padding: 3px;
+      cursor: pointer;
+      margin-left: auto;
+    }
+
     &__item {
       background: #F6F6F6;
       padding: 6px;
@@ -8,6 +21,7 @@
       &__info {
         display: flex;
         flex: 1;
+        margin-top: 6px;
 
         .delete-btn{
           display: flex;
@@ -27,6 +41,7 @@
         &::v-deep{
           .el-input{
             min-width: 230px;
+
             input{
               width: 100%;
             }
@@ -35,9 +50,23 @@
       }
 
       &__column {
-        margin-top: 6px;
+
+        &_container{
+          display: flex;
+
+          .add-btn {
+            display: flex;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            padding: 3px;
+            cursor: pointer;
+          }
+        }
+
         .el-tag + .el-tag{
           margin-left: 6px;
+          margin-top: 6px;
         }
       }
     }

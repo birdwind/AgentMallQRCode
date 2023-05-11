@@ -26,7 +26,7 @@
               @sort-change="onSortChange" border fit
               highlight-current-row
     >
-      <el-table-column prop="order" label="順序" width="60" align="center">
+      <el-table-column prop="順序" label="順序" width="80" align="center" sortable>
         <template slot-scope="scope">{{ scope.row[tableHeader.value.order] }}</template>
       </el-table-column>
       <el-table-column prop="name" label="姓名" width="120">
@@ -35,11 +35,17 @@
       <el-table-column prop="product" label="商品" min-width="200">
         <template slot-scope="scope">{{ scope.row[tableHeader.value.product] }}</template>
       </el-table-column>
+      <el-table-column prop="reconciled" label="已匯款" width="120">
+        <template slot-scope="scope">{{ scope.row.已匯款 }}</template>
+      </el-table-column>
       <el-table-column prop="payment" label="匯款後五碼" width="120">
         <template slot-scope="scope">{{ scope.row[tableHeader.value.productPayment] }}</template>
       </el-table-column>
       <el-table-column prop="date" label="匯款日期時間" width="200">
         <template slot-scope="scope">{{ scope.row[tableHeader.value.date] }}</template>
+      </el-table-column>
+      <el-table-column prop="到帳時間" label="到帳時間" width="200" sortable>
+        <template slot-scope="scope">{{ scope.row.到帳時間 }}</template>
       </el-table-column>
       <el-table-column v-for="item of wishColumn" :key="item" :prop="item" :label="item"/>
     </el-table>
@@ -81,7 +87,11 @@
         <!-- 表格設定 -->
         <el-form-item label="對應設定" prop="PaymentInfo">
           <bs-select v-model="tableHeader.key.name" :options="settingDialog.productInfoColumn"
-                     placeholder="請選定姓名對應欄位"
+                     placeholder="請選定[訂購]姓名對應欄位"
+                     filterable
+          />
+          <bs-select v-model="tableHeader.key.quantity" :options="settingDialog.productInfoColumn"
+                     placeholder="請選定[訂購]數量對應欄位"
                      filterable
           />
 <!--          <bs-select v-model="tableHeader.key.product" :options="settingDialog.productInfoColumn"-->
@@ -126,25 +136,33 @@
                      :multiple="true"
                      filterable
           />
-          <a style="margin-left: 6px;" @click="handleAddProductStock">
+          <a style="margin-left: 6px;" @click="handleAddProductStockCategory">
             <svg-icon icon-class="add"/>
           </a>
         </el-form-item>
         <div class="stock-list">
           <div class="stock-list__item" v-for="(item, index) in settingDialog.data.productStock" :key="index">
-            <div class="stock-list__item__info">
-              <bs-input v-model="item.name" placeholder="規格名稱" style="width: 100%;"/>
-              <bs-input v-model="item.stock" placeholder="規格庫存" style="width: 100px;"/>
-              <div class="delete-btn" @click="handleDeleteProductStock(index)">
-                <svg-icon icon-class="delete" style="width: auto; height: 100%;"/>
+            <div class="close-btn" @click="handleDeleteProductStockCategory(index)">
+              <svg-icon icon-class="close" style="width: auto; height: 100%;"/>
+            </div>
+            <div class="stock-list__item__column_container">
+              <div class="stock-list__item__column">
+                <el-tag type="success"
+                        v-for="(column, columnIndex) in item.productInfoColumn"
+                        :key="columnIndex">
+                  {{ column }}
+                </el-tag>
+              </div>
+              <div class="add-btn" @click="handleAddProductStock(index)" style="margin-left: auto;">
+                <svg-icon icon-class="add" style="width: auto; height: 100%;"/>
               </div>
             </div>
-            <div class="stock-list__item__column">
-              <el-tag type="success"
-                      v-for="(column, columnIndex) in item.productInfoColumn"
-                      :key="columnIndex">
-                {{ column}}
-              </el-tag>
+            <div class="stock-list__item__info" v-for="(stock, stockIndex) in item.stock" :key="stockIndex">
+              <bs-input v-model="stock.name" placeholder="規格名稱" style="width: 100%;"/>
+              <bs-input v-model="stock.quantity" placeholder="規格庫存" style="min-width: 50px;"/>
+              <div class="delete-btn" @click="handleDeleteProductStock(index, stockIndex)">
+                <svg-icon icon-class="delete" style="width: auto; height: 100%;"/>
+              </div>
             </div>
           </div>
         </div>
