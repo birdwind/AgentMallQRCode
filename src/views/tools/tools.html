@@ -89,22 +89,32 @@
 <!--                     filterable-->
 <!--          />-->
           <div style="display: flex;">
+            <bs-select v-model="tableHeader.key.productAmount" :options="settingDialog.productInfoColumn"
+                       placeholder="請選定[訂購]金額對應欄位"
+                       filterable
+            />
+            <bs-select v-model="tableHeader.key.paymentAmount" :options="settingDialog.paymentInfoColumn"
+                       placeholder="請選定[對帳]金額對應欄位"
+                       filterable
+            />
+          </div>
+          <div style="display: flex;">
             <bs-select v-model="tableHeader.key.productPayment" :options="settingDialog.productInfoColumn"
-                       placeholder="請選定匯款後五碼對應欄位"
+                       placeholder="請選定[訂購]後五碼對應欄位"
                        filterable
             />
             <bs-select v-model="tableHeader.key.paymentPayment" :options="settingDialog.paymentInfoColumn"
-                       placeholder="請選定對帳後五碼對應欄位"
+                       placeholder="請選定[對帳]後五碼對應欄位"
                        filterable
             />
           </div>
           <div style="display: flex;">
             <bs-select v-model="tableHeader.key.productInfoDate" :options="settingDialog.productInfoColumn"
-                       placeholder="請選定訂購匯款日期對應欄位"
+                       placeholder="請選定[訂購]匯款日期對應欄位"
                        filterable
             />
             <bs-select v-model="tableHeader.key.paymentInfoDate" :options="settingDialog.paymentInfoColumn"
-                       placeholder="請選定對帳匯款日期對應欄位"
+                       placeholder="請選定[對帳]匯款日期對應欄位"
                        filterable
             />
           </div>

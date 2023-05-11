@@ -19,8 +19,10 @@ export default {
           order: '',
           name: '',
           product: '',
+          productAmount: '',
           productPayment: '',
           paymentPayment: '',
+          paymentAmount: '',
           productInfoDate: '',
           paymentInfoDate: ''
         },
@@ -28,8 +30,10 @@ export default {
           order: '',
           name: '',
           product: '',
+          productAmount: '',
           productPayment: '',
           paymentPayment: '',
+          paymentAmount: '',
           productInfoDate: '',
           paymentInfoDate: ''
         }
@@ -96,6 +100,11 @@ export default {
         this.setTableColumnValue('product', this.settingDialog.productInfoColumn, val)
       }
     },
+    'tableHeader.key.productAmount': {
+      handler: function(val) {
+        this.setTableColumnValue('productAmount', this.settingDialog.productInfoColumn, val)
+      }
+    },
     'tableHeader.key.productPayment': {
       handler: function(val) {
         this.setTableColumnValue('productPayment', this.settingDialog.productInfoColumn, val)
@@ -104,6 +113,11 @@ export default {
     'tableHeader.key.productInfoDate': {
       handler: function(val) {
         this.setTableColumnValue('productInfoDate', this.settingDialog.productInfoColumn, val)
+      }
+    },
+    'tableHeader.key.paymentAmount': {
+      handler: function(val) {
+        this.setTableColumnValue('paymentAmount', this.settingDialog.paymentInfoColumn, val)
       }
     },
     'tableHeader.key.paymentPayment': {
@@ -179,15 +193,15 @@ export default {
       })
     },
     handleAllocation: function() {
-      this.reconciliation(this.settingDialog.data.paymentInfo.data, this.settingDialog.data.productInfo.data, {
-        product: '',
-        payment: ''
+      this.reconcile(this.settingDialog.data.paymentInfo.data, this.settingDialog.data.productInfo.data, {
+        product: this.tableHeader.value.productPayment,
+        payment: this.tableHeader.value.paymentPayment
       }, {
-        product: '',
-        payment: ''
+        product: this.tableHeader.value.productInfoDate,
+        payment: this.tableHeader.value.paymentInfoDate
       }, {
-        product: '',
-        payment: ''
+        product: this.tableHeader.value.productAmount,
+        payment: this.tableHeader.value.paymentAmount
       })
     },
     excelReader(excelFileData) {
@@ -227,30 +241,51 @@ export default {
     getHeader(row, columnIndex) {
       return row[columnIndex].name
     },
-    reconciliation(productData, paymentData, accountColumnName, dateColumnName, moneyColumnName) {
-      // 對帳
-      for (const productRowData in productData) {
-        paymentData.find(item => {
-          const paymentAccount = item[accountColumnName.payment].slice(11, 16)
-          const productAccount = productRowData[accountColumnName.product]
-          if (paymentAccount === productAccount) {
-            const paymentDate = formatDateAsStart(new Date(item[dateColumnName.payment]))
-            const paymentMoney = item[moneyColumnName.payment]
+    reconcile(products, payments, accountField, dateField, amountField) {
+      products.forEach(product => {
+        const productDate = formatDateAsStart(product[dateField.product])
+        payments.forEach(payment => {
+          const paymentDate = formatDateAsStart(payment[dateField.payment])
 
-            const productDate = formatDateAsStart(new Date(productRowData[dateColumnName.product]))
-            const productMoney = item[moneyColumnName.product]
-
-            if (paymentDate === productDate) {
-              if (paymentMoney === productMoney) {
-                productRowData[dateColumnName.product] = formatDate(new Date(productRowData[dateColumnName.product]))
-                return true
-              }
-            }
+          if (
+            payment[accountField.payment].endsWith(product[accountField.product]) &&
+            paymentDate === productDate &&
+            parseFloat(payment[amountField.payment]) === parseFloat(product[amountField.product])
+          ) {
+            product['已匯款'] = true
+            product['匯款正確日期'] = formatDate(payment[dateField.payment])
+          } else {
+            product['已匯款'] = false
           }
-          return false
         })
-      }
+      })
+
+      return products
     }
+    // reconciliation(productData, paymentData, accountColumnName, dateColumnName, moneyColumnName) {
+    //   // 對帳
+    //   for (const productRowData in productData) {
+    //     paymentData.find(item => {
+    //       const paymentAccount = item[accountColumnName.payment].slice(11, 16)
+    //       const productAccount = productRowData[accountColumnName.product]
+    //       if (paymentAccount === productAccount) {
+    //         const paymentDate = formatDateAsStart(new Date(item[dateColumnName.payment]))
+    //         const paymentMoney = item[moneyColumnName.payment]
+    //
+    //         const productDate = formatDateAsStart(new Date(productRowData[dateColumnName.product]))
+    //         const productMoney = item[moneyColumnName.product]
+    //
+    //         if (paymentDate === productDate) {
+    //           if (paymentMoney === productMoney) {
+    //             productRowData[dateColumnName.product] = formatDate(new Date(productRowData[dateColumnName.product]))
+    //             return true
+    //           }
+    //         }
+    //       }
+    //       return false
+    //     })
+    //   }
+    // }
   }
 }
 
