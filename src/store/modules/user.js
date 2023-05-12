@@ -1,4 +1,4 @@
-import { login, logout } from '@/api/user'
+import { logout } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
@@ -33,15 +33,23 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ phone: username.trim(), password: password }).then(response => {
-        const { LoginKey } = response
-        commit('SET_TOKEN', LoginKey)
-
-        setToken(LoginKey)
+      if (username === 'weii' && password === '0728evaeva') {
+        const token = 'Weii'
+        commit('SET_TOKEN', token)
+        setToken(token)
         resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      } else {
+        reject('帳號或密碼錯誤')
+      }
+      // login({ phone: username.trim(), password: password }).then(response => {
+      //   const { LoginKey } = response
+      //   commit('SET_TOKEN', LoginKey)
+      //
+      //   setToken(LoginKey)
+      //   resolve()
+      // }).catch(error => {
+      //   reject(error)
+      // })
     })
   },
 
